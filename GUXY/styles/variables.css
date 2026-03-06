@@ -1,0 +1,124 @@
+/**
+ * GUXY CSS变量定义
+ * 参考《明日方舟：终末地》— 深色底 + 毛玻璃面板 + #FFFF0E 强调色
+ */
+
+:root {
+  /* ========= 终末地配色方案 ========= */
+  --bg-deep: #A0A5A1;              /* 页面整体背景 - 画布渐变起始色 */
+  --bg-panel: rgba(30, 30, 35, 0.72);  /* 大面板背景 - 与集合节点同色 */
+  --bg-card: rgba(38, 38, 43, 0.6);    /* 卡片/次要面板背景 */
+  --bg-heavy: #222226;             /* 重色块 - 深灰 */
+  --bg-dark: #111114;              /* 最深色块 - 近黑 */
+  --border: rgba(255, 255, 255, 0.08);  /* 细边框 - 极淡白 */
+  --border-heavy: rgba(255, 255, 14, 0.15); /* 强调色边框 */
+  --text: #e8e8ec;                 /* 主文本 - 浅灰白 */
+  --text-muted: #8a8a92;           /* 次级文本 - 中灰 */
+  --text-on-dark: #f0f0f2;         /* 暗底上的文本 */
+  --accent: #FFFF0E;               /* 主高亮色 - 纯黄 */
+  --accent-dark: #e6e600;          /* 高亮色暗调 */
+  --accent-soft: rgba(255, 255, 14, 0.10);
+  --glass: rgba(30, 30, 35, 0.72);     /* 毛玻璃底色 - 与集合节点同色 */
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --transition: 200ms ease-in-out;
+
+  /* 兼容 GUXY 原有命名 */
+  --color-primary: #FFFF0E;
+  --color-primary-hover: #e6e600;
+  --color-primary-light: rgba(255, 255, 14, 0.12);
+  --color-primary-dark: #cccc00;
+
+  --color-secondary: #6a6a72;
+  --color-secondary-hover: #8a8a92;
+  --color-secondary-light: #4a4a52;
+
+  --color-bg: var(--bg-deep);
+  --color-bg-dark: #141418;
+  --color-surface: var(--bg-panel);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-light: var(--text-muted);
+  --color-text-lighter: #6a6a72;
+
+  /* 功能色 */
+  --color-success: #22c55e;
+  --color-warning: #eab308;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* 工作流程颜色 */
+  --workflow-step-1: #FFFF0E;
+  --workflow-step-2: #e6e600;
+  --workflow-step-3: #cccc00;
+  --workflow-step-4: #FFFF0E;
+  --workflow-step-5: #e6e600;
+  --workflow-step-6: #FFFF3E;
+  --workflow-step-7: #FFFF7E;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.45);
+
+  /* 圆角 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* 字体 */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+
+  /* 字体大小 */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+
+  /* 过渡 */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 200ms ease-in-out;
+  --transition-slow: 300ms ease-in-out;
+
+  /* 画布网格 */
+  --grid-color: rgba(0, 0, 0, 0.06);
+  --grid-size: 20px;
+
+  /* 节点颜色 */
+  --battle: #FFFF0E;
+  --system: #8a8a92;
+  --story: #cccc00;
+  --level: #FFFF3E;
+
+  --node-collection-bg: transparent;
+  --node-collection-border: rgba(255, 255, 255, 0.06);
+  --node-card-bg: rgba(50, 50, 55, 0.6);
+  --node-card-border: rgba(255, 255, 255, 0.08);
+
+  /* 连线颜色 */
+  --edge-color: rgba(255, 255, 255, 0.2);
+  --edge-active: #FFFF0E;
+  --edge-hover: #FFFF0E;
+
+  /* Z-index层级 */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-tooltip: 400;
+  --z-toast: 500;
+}

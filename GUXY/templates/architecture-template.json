@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "项目名称",
+    "description": "项目描述",
+    "created": "YYYY-MM-DD",
+    "author": "作者"
+  },
+  "collections": [
+    {
+      "id": "col-main",
+      "title": "主界面",
+      "type": "system",
+      "description": "游戏主入口界面",
+      "position": { "x": 0, "y": 0 },
+      "collapsed": false
+    }
+  ],
+  "cards": [
+    {
+      "id": "card-main",
+      "title": "主界面标题",
+      "description": "主界面的详细描述",
+      "type": "screen",
+      "interface_level": 1,
+      "collection_id": "col-main",
+      "position": { "x": 0, "y": 0 },
+      "cover_thumb": null
+    }
+  ],
+  "cardLinks": [
+    {
+      "id": "link-1",
+      "from": "card-from",
+      "to": "card-to",
+      "label": "跳转说明",
+      "icon": null
+    }
+  ],
+  "collectionLinks": [
+    {
+      "id": "collink-1",
+      "from": "col-from",
+      "to": "col-to",
+      "label": "入口说明"
+    }
+  ],
+  "cardCollectionLinks": [
+    {
+      "id": "cardcollink-1",
+      "from": "card-from",
+      "to": "col-to"
+    }
+  ],
+  "metadata": {
+    "total_collections": 1,
+    "total_cards": 1,
+    "total_card_links": 0,
+    "total_collection_links": 0,
+    "total_card_collection_links": 0
+  }
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GUXY - 游戏交互设计AI工作流平台</title>
+  
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="../styles/variables.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/workflow.css">
+  <link rel="stylesheet" href="../styles/canvas.css">
+  <link rel="stylesheet" href="../styles/central-toolbar.css">
+  <link rel="stylesheet" href="../styles/analysis-progress.css">
+  <link rel="stylesheet" href="../styles/index.css">
+  <link rel="stylesheet" href="../styles/agent-island.css">
+  <link rel="stylesheet" href="../styles/agent-chat-panel.css">
+  
+  <style>
+    /* 页面切换样式 */
+    .page {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      flex-direction: column;
+    }
+    .page.active {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 项目列表页 -->
+    <div id="project-list-page" class="page list-page active">
+      <div class="list-page">
+        <div class="project-list-header">
+          <h1>GUXY - 游戏交互设计AI工作流平台</h1>
+          <p class="subtitle">AI驱动的游戏交互设计工作流，从策划到高保真UI一站式解决</p>
+        </div>
+        
+        <div class="create-row">
+          <input type="text" id="new-project-name" class="input" placeholder="输入项目名称..." maxlength="100">
+          <button id="btn-create-project" class="btn btn-primary">创建项目</button>
+        </div>
+        
+        <ul id="project-list" class="project-cards">
+          <!-- 项目卡片将由JS动态生成 -->
+        </ul>
+      </div>
+    </div>
+    
+    <!-- 画布页 -->
+    <div id="canvas-page" class="page canvas-page">
+      <div class="canvas-header">
+        <a href="#" id="btn-back-to-list" class="btn-back-to-project">◀</a>
+        <div class="canvas-title" id="canvas-project-title">项目名称</div>
+        <div class="canvas-header-right">
+          <span class="editors-count">👥 1</span>
+          
+          <div class="toolbar">
+            <button id="btn-add-collection" class="btn btn-secondary btn-sm" title="添加集合">
+              📁 集合
+            </button>
+            <button id="btn-add-card" class="btn btn-secondary btn-sm" title="添加卡片">
+              📝 卡片
+            </button>
+            <button id="btn-auto-layout" class="btn btn-secondary btn-sm" title="自动布局">
+              🔄 布局
+            </button>
+            <button id="btn-center-view" class="btn btn-secondary btn-sm" title="居中视图">
+              🎯 居中
+            </button>
+            <button id="btn-reset-view" class="btn btn-secondary btn-sm" title="重置视图">
+              ↺ 重置
+            </button>
+            <button id="btn-clear-canvas" class="btn btn-secondary btn-sm" title="清空画布">
+              🗑️ 清空
+            </button>
+            <button id="btn-save" class="btn btn-primary btn-sm" title="保存">
+              💾 保存
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="canvas-layout">
+        <main class="app-canvas" id="canvas-container">
+          <div id="canvas-stage">
+            <div class="canvas-transform" id="canvas-transform">
+              <div class="edges-container" id="edges-container">
+                <svg id="edges-svg"></svg>
+              </div>
+              <div class="nodes-container" id="nodes-container"></div>
+            </div>
+          </div>
+        </main>
+
+        <aside class="detail-sidebar" id="detail-sidebar">
+          <!-- 详情内容将由JS动态生成 -->
+        </aside>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 工作流程UI已移除，改为中岛台工具栏 -->
+  
+  <!-- 模态框容器 -->
+  <div id="modal-container"></div>
+  
+  <!-- Toast容器 -->
+  <div id="toast-container"></div>
+  
+  <!-- 第三方库 -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  
+  <!-- 引入模块 -->
+  <script src="../modules/core/init.js"></script>
+  <script src="../modules/core/constants.js"></script>
+  <script src="../modules/core/db.js"></script>
+  <script src="../modules/core/state.js"></script>
+  <script src="../modules/core/utils.js"></script>
+  
+  <!-- 画布模块 -->
+  <script src="../modules/canvas/CanvasStage.js"></script>
+  <script src="../modules/canvas/ForceLayout.js"></script>
+  <script src="../modules/canvas/Nodes.js"></script>
+  <script src="../modules/canvas/Edges.js"></script>
+  <script src="../modules/canvas/SubCanvasZones.js"></script>
+  <script src="../modules/canvas/SubCanvas.js"></script>
+  
+  <!-- 节点模块 -->
+  <script src="../modules/nodes/CollectionNode.js"></script>
+  <script src="../modules/nodes/CardNode.js"></script>
+  
+  <!-- 交互模块 -->
+  <script src="../modules/interaction/Connection.js"></script>
+  <script src="../modules/interaction/ZoomPan.js"></script>
+  
+  <!-- UI组件 -->
+  <script src="../modules/ui/ProjectList.js"></script>
+  <script src="../modules/ui/Sidebar.js"></script>
+  <script src="../modules/ui/Toolbar.js"></script>
+  <script src="../modules/ui/CentralToolbar.js"></script>
+  <script src="../modules/ui/AnalysisProgressModal.js"></script>
+  <script src="../modules/ui/NodeDetailSidebar.js"></script>
+  <script src="../modules/ui/WorkflowProgress.js"></script>
+  <script src="../modules/ui/Modal.js"></script>
+  <script src="../modules/ui/Toast.js"></script>
+  <script src="../modules/ui/ApiConfig.js"></script>
+  <script src="../modules/ui/AgentChatPanel.js"></script>
+  <script src="../modules/ui/AgentIsland.js"></script>
+  
+  <!-- GUXY模块 -->
+  <script src="../modules/guxy/Workflow.js"></script>
+  <script src="../modules/guxy/ArchitectureGen.js"></script>
+  <script src="../modules/guxy/AIAnalysis.js"></script>
+  <script src="../modules/guxy/ExportManager.js"></script>
+  <script src="../modules/guxy/InteractionSpec.js"></script>
+  <script src="../modules/guxy/SelfCheck.js"></script>
+  <script src="../modules/guxy/PlanImport.js"></script>
+  <script src="../modules/guxy/UIGeneration.js"></script>
+  <script src="../modules/guxy/LowFiGeneration.js"></script>
+  <script src="../modules/guxy/Logger.js"></script>
+  
+  <!-- 应用入口 -->
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+/**
+ * GUXY中岛台工具栏样式
+ * 终末地风格 — 深色毛玻璃 + 荧光黄胶囊按钮 + 无X纹理
+ */
+
+/* ==================== 中岛台容器 ==================== */
+.central-toolbar {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-sticky, 1000);
+  pointer-events: none;
+}
+
+.central-toolbar-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm, 8px);
+  padding: var(--spacing-sm, 8px) var(--spacing-md, 12px);
+  /* 深色毛玻璃底板 */
+  background: rgba(30, 30, 35, 0.75);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-full, 9999px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 1px rgba(255, 255, 255, 0.05);
+  pointer-events: auto;
+  position: relative;
+}
+
+.central-toolbar-content > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==================== 底板 ==================== */
+.toolbar-base {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% + 80px);
+  height: 28px;
+  background: rgba(255, 255, 14, 0.03);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-radius: 24px 24px 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  box-shadow:
+    0 -6px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ==================== 按钮组 ==================== */
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs, 4px);
+}
+
+.toolbar-group-main {
+  gap: var(--spacing-sm, 8px);
+}
+
+.toolbar-group-canvas {
+  gap: var(--spacing-xs, 4px);
+}
+
+.toolbar-group-zoom {
+  gap: var(--spacing-xs, 4px);
+}
+
+/* ==================== 分隔线 ==================== */
+.toolbar-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 var(--spacing-xs, 4px);
+}
+
+/* ==================== 工具栏按钮 — 胶囊风格 ==================== */
+.toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs, 4px);
+  padding: 6px 14px;
+  border: none;
+  border-radius: var(--radius-full, 9999px);
+  font-size: var(--text-sm, 14px);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base, 0.2s ease);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.toolbar-btn-primary {
+  background: linear-gradient(135deg, #FFFF0E, #e6e600);
+  color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(255, 255, 14, 0.3);
+  font-weight: 700;
+}
+
+.toolbar-btn-primary:hover {
+  background: linear-gradient(135deg, #FFFF3E, #FFFF0E);
+  box-shadow: 0 4px 16px rgba(255, 255, 14, 0.4);
+  transform: translateY(-1px);
+}
+
+.toolbar-btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(255, 255, 14, 0.3);
+}
+
+.toolbar-btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted, #8a8a92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.toolbar-btn-secondary:hover {
+  background: rgba(255, 255, 14, 0.1);
+  border-color: rgba(255, 255, 14, 0.3);
+  color: var(--accent, #FFFF0E);
+  transform: translateY(-1px);
+}
+
+.toolbar-btn-secondary:active {
+  transform: translateY(0);
+}
+
+.toolbar-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ==================== 按钮图标和标签 ==================== */
+.toolbar-btn-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.toolbar-btn-label {
+  font-size: 16px;
+}
+
+/* 仅图标按钮 */
+.toolbar-group-canvas .toolbar-btn,
+.toolbar-group-zoom .toolbar-btn {
+  padding: 6px;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.toolbar-group-canvas .toolbar-btn .toolbar-btn-label,
+.toolbar-group-zoom .toolbar-btn .toolbar-btn-label {
+  display: none;
+}
+
+/* ==================== 缩放级别显示 ==================== */
+.toolbar-zoom-level {
+  min-width: 48px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted, #8a8a92);
+  padding: 0 var(--spacing-xs, 4px);
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+  .central-toolbar-content {
+    flex-wrap: wrap;
+    max-width: calc(100vw - 32px);
+  }
+  
+  .toolbar-btn-label {
+    display: none;
+  }
+  
+  .toolbar-group-main .toolbar-btn {
+    padding: 6px;
+    min-width: 40px;
+  }
+}
+
+/* ==================== 动画效果 ==================== */
+@keyframes toolbarSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.central-toolbar {
+  animation: toolbarSlideUp 0.3s ease-out;
+}

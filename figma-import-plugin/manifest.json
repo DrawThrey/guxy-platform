@@ -1,0 +1,9 @@
+{
+  "name": "导入游戏架构",
+  "id": "guxy-architecture-import",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "documentAccess": "dynamic-page",
+  "editorType": ["figma"]
+}

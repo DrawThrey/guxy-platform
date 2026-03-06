@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "main", "master"]
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: 'Target deployment configuration'
+        required: true
+        default: "github-pages"
+        type: choice
+        options:
+          - description: 'Deploy to GitHub Pages'
+            value: github-pages
+
+          - description: 'Deploy to a custom branch'
+            value: custom-branch
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        with:
+          static_site_generator: true
+          enablement: ${{ github.event_name != '' }}
+          publish_branch: ${{ inputs.deploy_target == 'github-pages' && 'gh-pages' || 'main' }}
+          publish_dir: ./GUXY
+          publish_url: ${{ steps.pages.outputs.page_url }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./GUXY
+          github_token: ${{ secrets.GITHUB_TOKEN }}

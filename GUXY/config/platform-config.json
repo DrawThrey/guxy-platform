@@ -1,0 +1,281 @@
+{
+  "version": "1.0.0",
+  "platform": {
+    "name": "GUXY",
+    "fullName": "GUXY Game UX Design Workflow Platform",
+    "description": "游戏交互设计AI工作流平台，支持从策划案到高保真UI的完整流程",
+    "created": "2026-02-05",
+    "author": "GUXY Team"
+  },
+  "paths": {
+    "skills": "skills/",
+    "docs": "docs/",
+    "resources": "resources/",
+    "templates": "templates/",
+    "config": "config/",
+    "logs": "logs/",
+    "tools": "tools/",
+    "cursorSkills": ".cursor/skills/"
+  },
+  "ai": {
+    "defaultModel": "glm-4-flash",
+    "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+    "maxTokens": 4096,
+    "timeout": 60000,
+    "models": {
+      "glm-4-flash": {
+        "name": "GLM-4 Flash",
+        "description": "智谱GLM-4快速版，适合快速分析和生成",
+        "maxTokens": 8192
+      },
+      "glm-4-plus": {
+        "name": "GLM-4 Plus",
+        "description": "智谱GLM-4增强版，适合复杂任务",
+        "maxTokens": 128000
+      }
+    }
+  },
+  "workflow": {
+    "steps": 7,
+    "step1": {
+      "name": "AI分析策划案",
+      "skill": "01-ai-analysis",
+      "input": "策划案文件",
+      "output": "交互逻辑记录"
+    },
+    "step2": {
+      "name": "生成卡片交互架构",
+      "skill": "02-architecture-gen",
+      "input": "交互逻辑记录",
+      "output": "架构JSON文件"
+    },
+    "step3": {
+      "name": "手动调整卡片架构",
+      "tool": "PiaJi在线版",
+      "input": "架构JSON文件",
+      "output": "优化后的架构"
+    },
+    "step4": {
+      "name": "导出AI可读架构",
+      "tool": "PiaJi导出功能",
+      "input": "优化后的架构",
+      "output": "AI可读架构"
+    },
+    "step5": {
+      "name": "生成开发规划",
+      "mode": "Plan Mode",
+      "input": "AI可读架构",
+      "output": "开发规划"
+    },
+    "step6": {
+      "name": "开发与自检",
+      "skills": ["05-interaction-spec", "06-self-check"],
+      "input": "开发规划",
+      "output": "功能实现和自检报告"
+    },
+    "step7": {
+      "name": "生成高保真UI",
+      "tool": "生图大模型",
+      "input": "功能实现",
+      "output": "高保真UI资源"
+    }
+  },
+  "validation": {
+    "checkThreshold": 80,
+    "criticalIssues": -15,
+    "importantIssues": -5,
+    "niceToHaveIssues": -1,
+    "passThreshold": 80
+  },
+  "architecture": {
+    "template": "templates/architecture-template.json",
+    "format": "PiaJi",
+    "version": "1.0.0",
+    "structure": {
+      "collections": {
+        "description": "功能集合，每个功能一个集合",
+        "required": ["主界面"],
+        "types": ["system", "combat", "story", "level"]
+      },
+      "cards": {
+        "description": "界面卡片和提示卡片",
+        "types": ["screen", "hint"],
+        "interface_levels": [1, 2, 3]
+      },
+      "links": {
+        "cardLinks": "卡片之间的连线",
+        "collectionLinks": "集合之间的连线",
+        "cardCollectionLinks": "卡片到集合的连线"
+      }
+    }
+  },
+  "interaction": {
+    "specTemplate": "templates/interaction-spec-template.md",
+    "skills": ["05-interaction-spec"],
+    "defaultHierarchy": {
+      "level1": {
+        "name": "一级界面",
+        "description": "主要入口点，从主界面可访问",
+        "examples": ["Main Menu", "Inventory", "Character Screen"]
+      },
+      "level2": {
+        "name": "二级界面",
+        "description": "细节界面，从一级界面进入",
+        "examples": ["Item Details", "Skill Tree", "Quest List"]
+      },
+      "level3": {
+        "name": "三级界面",
+        "description": "更细节的视图，从二级界面进入",
+        "examples": ["Equipment Slots", "Skill Upgrade", "Quest Details"]
+      }
+    }
+  },
+  "resources": {
+    "uiResources": "resources/ui-resources/",
+    "referenceResources": "resources/reference-resources/",
+    "imageFormats": ["PNG", "JPG", "SVG"],
+    "iconFormats": ["SVG", "PNG"],
+    "fontFormats": ["WOFF2", "WOFF", "TTF"],
+    "maxImageSize": "2MB",
+    "recommendedResolutions": {
+      "mobile": "750x1334",
+      "desktop": "1920x1080",
+      "highDensity": "2560x1440"
+    }
+  },
+  "export": {
+    "formats": ["JSON", "Markdown", "PDF"],
+    "architecture": "JSON",
+    "specifications": "Markdown",
+    "reports": "Markdown/PDF",
+    "backup": "自动备份",
+    "versionControl": "SVN"
+  },
+  "logging": {
+    "level": "INFO",
+    "directory": "logs/",
+    "logFiles": {
+      "platform": "platform-{type}-{date}.log",
+      "uxCheck": "ux-self-check-{feature}-{date}.md"
+    },
+    "retention": {
+      "uxCheckReports": "永久",
+      "platformLogs": "30天"
+    },
+    "compression": {
+      "threshold": "10MB",
+      "format": "ZIP"
+    }
+  },
+  "cursor": {
+    "integration": true,
+    "skillDirectory": ".cursor/skills/",
+    "autoLoadSkills": true,
+    "skills": [
+      "01-ai-analysis",
+      "02-architecture-gen",
+      "05-interaction-spec",
+      "06-self-check"
+    ]
+  },
+  "performance": {
+    "responseTime": {
+      "immediate": 100,
+      "fast": 500,
+      "medium": 2000,
+      "slow": 5000
+    },
+    "animationDuration": {
+      "fast": 150,
+      "normal": 200,
+      "slow": 300
+    },
+    "frameRate": 60,
+    "targetLoadTime": 2
+  },
+  "accessibility": {
+    "colorContrast": {
+      "normalText": 4.5,
+      "largeText": 3.0,
+      "graphics": 3.0
+    },
+    "textScaling": [100, 125, 150, 200],
+    "keyboardNavigation": true,
+    "screenReader": true,
+    "animationControl": true
+  },
+  "versionControl": {
+    "system": "SVN",
+    "mainBranch": "trunk",
+    "developBranch": "branches/develop",
+    "featureBranchPattern": "branches/feature/[name]",
+    "fixBranchPattern": "branches/fix/[name]",
+    "commitFormat": "[type]([scope]): description",
+    "types": ["feat", "fix", "docs", "style", "refactor", "test", "chore"]
+  },
+  "team": {
+    "roles": {
+      "designer": "交互设计师",
+      "developer": "开发工程师",
+      "qa": "质量保证",
+      "pm": "产品经理"
+    },
+    "collaboration": {
+      "platform": "SVN",
+      "review": "Code Review",
+      "documentation": "Markdown"
+    }
+  },
+  "externalTools": {
+    "piaji": {
+      "name": "PiaJi",
+      "path": "../PiaJi/online/index.html",
+      "purpose": "架构可视化和编辑"
+    },
+    "cursor": {
+      "name": "Cursor IDE",
+      "modes": ["Plan", "Agent"],
+      "purpose": "AI辅助开发和规划"
+    },
+    "imageGen": {
+      "name": "AI Image Generator",
+      "supported": ["DALL-E", "Midjourney", "Stable Diffusion"],
+      "purpose": "生成高保真UI"
+    }
+  },
+  "maintenance": {
+    "tasks": {
+      "weekly": [
+        "检查日志文件大小",
+        "清理临时文件",
+        "更新文档"
+      ],
+      "monthly": [
+        "压缩归档旧日志",
+        "审查规范",
+        "清理未使用资源"
+      ],
+      "quarterly": [
+        "审查项目结构",
+        "优化文件组织",
+        "更新依赖和工具"
+      ]
+    },
+    "qualityChecks": {
+      "namingConvention": true,
+      "documentation": true,
+      "fileStructure": true,
+      "revisionHistory": true,
+      "committedFiles": true
+    }
+  },
+  "metadata": {
+    "lastUpdated": "2026-02-05",
+    "configVersion": "1.0.0",
+    "compatibility": {
+      "minCursorVersion": "1.0.0",
+      "minNodeVersion": "14.0.0",
+      "minPythonVersion": "3.6.0"
+    }
+  }
+}

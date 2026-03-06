@@ -1,0 +1,337 @@
+/**
+ * GUXY工作流程样式
+ * 终末地风格 — 深色毛玻璃 + 荧光黄胶囊按钮
+ */
+
+/* ==================== 工作流程容器 ==================== */
+.workflow-container {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* 深色毛玻璃底板 */
+  background: rgba(30, 30, 35, 0.75);
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-md) var(--spacing-xl);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 1px rgba(255, 255, 255, 0.05);
+  z-index: var(--z-sticky);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  min-width: 720px;
+  position: relative;
+  overflow: hidden;
+}
+
+.workflow-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==================== 工作流程进度条 ==================== */
+.workflow-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  position: relative;
+}
+
+.workflow-progress::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--workflow-step-1) 0%,
+    var(--workflow-step-2) 16.67%,
+    var(--workflow-step-3) 33.33%,
+    var(--workflow-step-4) 50%,
+    var(--workflow-step-5) 66.67%,
+    var(--workflow-step-6) 83.33%,
+    var(--workflow-step-7) 100%
+  );
+  z-index: 0;
+  opacity: 0.2;
+}
+
+/* ==================== 工作流程步骤 ==================== */
+.workflow-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  z-index: 1;
+  flex: 1;
+}
+
+.workflow-step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.workflow-step-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 100px;
+  transition: color var(--transition-base);
+}
+
+/* 步骤状态 */
+.workflow-step.active .workflow-step-number {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a1a1a;
+  box-shadow: 0 0 0 4px rgba(255, 255, 14, 0.15);
+}
+
+.workflow-step.active .workflow-step-label {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.workflow-step.completed .workflow-step-number {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: white;
+}
+
+.workflow-step.completed .workflow-step-label {
+  color: var(--color-success);
+}
+
+/* 各步骤颜色 */
+.workflow-step:nth-child(1).active .workflow-step-number {
+  background: var(--workflow-step-1);
+  border-color: var(--workflow-step-1);
+}
+
+.workflow-step:nth-child(2).active .workflow-step-number {
+  background: var(--workflow-step-2);
+  border-color: var(--workflow-step-2);
+}
+
+.workflow-step:nth-child(3).active .workflow-step-number {
+  background: var(--workflow-step-3);
+  border-color: var(--workflow-step-3);
+}
+
+.workflow-step:nth-child(4).active .workflow-step-number {
+  background: var(--workflow-step-4);
+  border-color: var(--workflow-step-4);
+}
+
+.workflow-step:nth-child(5).active .workflow-step-number {
+  background: var(--workflow-step-5);
+  border-color: var(--workflow-step-5);
+}
+
+.workflow-step:nth-child(6).active .workflow-step-number {
+  background: var(--workflow-step-6);
+  border-color: var(--workflow-step-6);
+}
+
+.workflow-step:nth-child(7).active .workflow-step-number {
+  background: var(--workflow-step-7);
+  border-color: var(--workflow-step-7);
+}
+
+/* ==================== 工作流程控制按钮 — 胶囊风格 ==================== */
+workflow-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.workflow-btn {
+  padding: 6px 24px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.workflow-btn-prev {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.workflow-btn-prev:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+.workflow-btn-next {
+  background: linear-gradient(135deg, #FFFF0E, #e6e600);
+  color: #1a1a1a;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(255, 255, 14, 0.3);
+}
+
+.workflow-btn-next:hover {
+  background: linear-gradient(135deg, #FFFF3E, #FFFF0E);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255, 255, 14, 0.4);
+}
+
+.workflow-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ==================== 工作流程信息面板 ==================== */
+workflow-info {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.workflow-info-title {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.workflow-info-description {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ==================== 工作流程操作区 ==================== */
+workflow-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.workflow-action-card {
+  flex: 1;
+  min-width: 200px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.workflow-action-card:hover {
+  border-color: rgba(255, 255, 14, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.workflow-action-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 14, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-sm);
+  color: var(--accent);
+}
+
+.workflow-action-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.workflow-action-desc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ==================== 步骤指示器 ==================== */
+step-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-full);
+}
+
+step-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+step-indicator-dot.active {
+  background: var(--accent);
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 1024px) {
+  .workflow-container {
+    min-width: 600px;
+  }
+  
+  .workflow-step-label {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .workflow-container {
+    min-width: auto;
+    width: calc(100% - 48px);
+    bottom: var(--spacing-md);
+  }
+  
+  .workflow-step-number {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .workflow-step-label {
+    display: none;
+  }
+  
+  workflow-controls {
+    flex-direction: column;
+  }
+  
+  .workflow-btn {
+    width: 100%;
+  }
+}
