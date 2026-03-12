@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GUXY 使用教程</title>
+  <style>
+    :root {
+      --color-bg: #0b1020;
+      --color-bg-elevated: #131a2b;
+      --color-bg-soft: #1b2338;
+      --color-border-subtle: rgba(255, 255, 255, 0.06);
+      --color-text: #e6ecff;
+      --color-text-soft: #9aa4c6;
+      --color-text-muted: #6c7394;
+      --color-accent: #ffd84a;
+      --color-accent-soft: rgba(255, 216, 74, 0.16);
+      --color-accent-strong: #ffeb8a;
+      --color-danger: #ff6b81;
+      --color-success: #44d69e;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --nav-width: 260px;
+      --header-height: 64px;
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.25s ease;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+        Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    [data-theme="light"] {
+      --color-bg: #f5f6fb;
+      --color-bg-elevated: #ffffff;
+      --color-bg-soft: #f0f2fd;
+      --color-border-subtle: rgba(12, 22, 46, 0.06);
+      --color-text: #111827;
+      --color-text-soft: #4b5563;
+      --color-text-muted: #6b7280;
+      --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-height) + 16px);
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: radial-gradient(circle at top left, #1a2644 0, #050814 40%, #05050a 100%);
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    main {
+      display: flex;
+      align-items: stretch;
+      min-height: 100vh;
+    }
+
+    /* Layout */
+    .layout-shell {
+      display: grid;
+      grid-template-columns: var(--nav-width) minmax(0, 1fr);
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 16px 16px 32px;
+      gap: 20px;
+    }
+
+    @media (max-width: 960px) {
+      .layout-shell {
+        grid-template-columns: minmax(0, 1fr);
+        padding-inline: 12px;
+      }
+    }
+
+    .app-card {
+      position: relative;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(255, 216, 74, 0.06) 0, transparent 45%),
+        radial-gradient(circle at bottom right, rgba(31, 135, 255, 0.08) 0, transparent 55%),
+        var(--color-bg-elevated);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      overflow: hidden;
+      min-height: calc(100vh - 48px);
+      display: grid;
+      grid-template-rows: var(--header-height) minmax(0, 1fr);
+    }
+
+    /* Header */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      backdrop-filter: blur(20px);
+      background: linear-gradient(
+          to bottom,
+          rgba(7, 11, 24, 0.96),
+          rgba(7, 11, 24, 0.88)
+        );
+      z-index: 10;
+    }
+
+    .app-header-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 20% 20%, #ffd84a 0, #ffb347 40%, #f97316 70%, #1d1b3f 100%);
+      position: relative;
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.5),
+        0 10px 25px rgba(0, 0, 0, 0.6),
+        0 0 35px rgba(255, 216, 74, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 2px solid rgba(10, 15, 30, 0.6);
+      box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.8),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+      transform: rotate(8deg);
+      background:
+        linear-gradient(135deg, rgba(9, 9, 11, 0.9), rgba(15, 23, 42, 0.2)),
+        radial-gradient(circle at 10% 0, rgba(255, 255, 255, 0.35), transparent 55%);
+    }
+
+    .logo-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .logo-title {
+      font-size: 18px;
+      font-weight: 640;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .logo-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--color-text-muted);
+      padding: 1px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.45);
+    }
+
+    .logo-subtitle {
+      font-size: 12px;
+      color: var(--color-text-soft);
+    }
+
+    .app-header-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pill-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--color-text-muted);
+      background: rgba(15, 23, 42, 0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+    }
+
+    .theme-toggle {
+      position: relative;
+      width: 54px;
+      height: 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: radial-gradient(circle at top, rgba(248, 250, 252, 0.08), transparent 60%),
+        rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      align-items: center;
+      padding-inline: 4px;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), background var(--transition-fast),
+        box-shadow var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .theme-toggle:hover {
+      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.7);
+      transform: translateY(-0.5px);
+    }
+
+    .theme-toggle-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 15%, #fff7d6 0, #ffd84a 45%, #f97316 70%, #1e1b4b 100%);
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(15, 23, 42, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #111827;
+      font-size: 13px;
+      transform: translateX(0);
+      transition: transform var(--transition-med);
+    }
+
+    [data-theme="light"] .theme-toggle-thumb {
+      transform: translateX(24px);
+      background: radial-gradient(circle at 30% 15%, #e0f2ff 0, #bae6fd 50%, #0ea5e9 80%, #0f172a 100%);
+      color: #0f172a;
+    }
+
+    .theme-toggle-icon {
+      pointer-events: none;
+    }
+
+    .header-mobile-toggle {
+      display: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.9);
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-soft);
+      cursor: pointer;
+    }
+
+    @media (max-width: 960px) {
+      .theme-toggle {
+        display: none;
+      }
+
+      .header-mobile-toggle {
+        display: inline-flex;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 16px;
+      align-self: flex-start;
+      height: calc(100vh - 32px);
+      border-radius: 22px;
+      background: linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.96),
+          rgba(15, 23, 42, 0.9)
+        );
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 1),
+        0 18px 45px rgba(15, 23, 42, 0.96);
+      padding: 18px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar-header {
+      padding: 4px 8px 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        rgba(15, 23, 42, 0.6),
+        rgba(15, 23, 42, 0.3)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.36);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sidebar-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--color-text-muted);
+    }
+
+    .sidebar-version {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--color-accent-strong);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sidebar-version-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--color-accent);
+    }
+
+    .sidebar-search {
+      position: relative;
+    }
+
+    .sidebar-search input {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 8px 9px 8px 30px;
+      font-size: 12px;
+      color: var(--color-text);
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast);
+    }
+
+    .sidebar-search input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    .sidebar-search input:focus {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 1px rgba(255, 216, 74, 0.5);
+      background: radial-gradient(circle at top left, rgba(250, 250, 250, 0.06), transparent 50%),
+        rgba(15, 23, 42, 1);
+    }
+
+    .sidebar-search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow: hidden auto;
+      padding-right: 4px;
+      mask-image: linear-gradient(to bottom, transparent, #000 10px, #000 calc(100% - 20px), transparent);
+    }
+
+    .sidebar-section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--color-text-muted);
+      margin: 14px 10px 6px;
+    }
+
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .toc-item {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 13px;
+      color: var(--color-text-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast),
+        transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .toc-item:hover {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--color-text);
+      transform: translateX(1px);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8);
+    }
+
+    .toc-item.active {
+      background: radial-gradient(circle at left, rgba(255, 216, 74, 0.18), transparent 65%),
+        rgba(15, 23, 42, 0.98);
+      color: var(--color-accent-strong);
+      box-shadow:
+        0 0 0 1px rgba(234, 179, 8, 0.8),
+        0 10px 30px rgba(15, 23, 42, 1);
+    }
+
+    .toc-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .toc-badge {
+      min-width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--color-text-muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .toc-label {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .toc-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at 30% 10%, #bbf7d0 0, #22c55e 55%, #166534 100%);
+      box-shadow:
+        0 0 0 4px rgba(34, 197, 94, 0.18),
+        0 0 12px rgba(34, 197, 94, 0.65);
+    }
+
+    .sidebar-footer {
+      padding: 8px 10px 4px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.5);
+      font-size: 11px;
+      color: var(--color-text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-footer-pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-text-soft);
+    }
+
+    @media (max-width: 960px) {
+      .sidebar {
+        position: fixed;
+        inset: calc(var(--header-height) + 8px) 10px 12px;
+        transform: translateY(12px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--transition-med), transform var(--transition-med);
+        z-index: 30;
+      }
+
+      .sidebar.is-open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+    }
+
+    /* Content */
+    .content {
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-scroll {
+      padding: 20px 24px 36px;
+      overflow: hidden auto;
+      background:
+        radial-gradient(circle at top left, rgba(26, 86, 219, 0.25), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(14, 116, 144, 0.27), transparent 50%),
+        repeating-linear-gradient(
+          135deg,
+          rgba(15, 23, 42, 0.96) 0,
+          rgba(15, 23, 42, 0.96) 2px,
+          rgba(15, 23, 42, 0.98) 2px,
+          rgba(15, 23, 42, 0.98) 4px
+        );
+    }
+
+    .content-inner {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.2fr);
+      gap: 22px;
+      padding: 8px 12px 22px;
+      margin-bottom: 10px;
+      border-radius: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background:
+        radial-gradient(circle at top left, rgba(250, 250, 250, 0.05), transparent 60%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 1),
+        0 20px 45px rgba(15, 23, 42, 1);
+    }
+
+    @media (max-width: 960px) {
+      .content-scroll {
+        padding-inline: 16px;
+      }
+
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 10px 12px 18px;
+      }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--color-text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 10px;
+    }
+
+    .hero-eyebrow-highlight {
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(234, 179, 8, 0.1);
+      color: var(--color-accent-strong);
+      border: 1px solid rgba(234, 179, 8, 0.7);
+    }
+
+    .hero-title {
+      font-size: 30px;
+      line-height: 1.16;
+      letter-spacing: 0.02em;
+      margin: 0 0 10px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, #facc15, #f97316, #38bdf8);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--color-text-soft);
+      margin: 0 0 12px;
+    }
+
+    .hero-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .hero-meta-pill {
+      padding: 4px 9px;
+      font-size: 11px;
+      border-radius: var(--radius-pill);
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      color: var(--color-text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta-pill strong {
+      color: var(--color-accent-strong);
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      border-radius: var(--radius-pill);
+      padding: 7px 16px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #facc15, #f97316);
+      color: #111827;
+      box-shadow:
+        0 10px 25px rgba(248, 250, 252, 0.1),
+        0 0 0 1px rgba(15, 23, 42, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 18px 40px rgba(248, 250, 252, 0.2),
+        0 0 0 1px rgba(15, 23, 42, 1);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--color-text-soft);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15, 23, 42, 1);
+      color: var(--color-text);
+      transform: translateY(-1px);
+    }
+
+    .hero-secondary {
+      border-radius: 18px;
+      padding: 10px 12px;
+      background:
+        radial-gradient(circle at top left, rgba(251, 191, 36, 0.16), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.16), transparent 40%),
+        rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .hero-flow-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .hero-flow-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--color-text-muted);
+    }
+
+    .hero-flow-badge {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 11px;
+      color: var(--color-accent-strong);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .hero-flow-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .hero-flow-step {
+      position: relative;
+      border-radius: 12px;
+      padding: 6px 8px 6px 9px;
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.9),
+        rgba(15, 23, 42, 0.98)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-flow-step-number {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--color-text-muted);
+    }
+
+    .hero-flow-step-title {
+      font-size: 12px;
+      color: var(--color-accent-strong);
+    }
+
+    @media (max-width: 720px) {
+      .hero-flow-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Sections */
+    .chapter {
+      margin-top: 26px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .chapter-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .chapter-title {
+      font-size: 20px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chapter-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chapter-tag {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 11px;
+      color: var(--color-text-soft);
+    }
+
+    .chapter-pill {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(248, 250, 252, 0.6);
+      background: radial-gradient(circle at 30% 15%, #fef9c3 0, #facc15 40%, #f97316 75%, #1e1b4b 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
+    }
+
+    .chapter-body {
+      font-size: 14px;
+      color: var(--color-text-soft);
+      line-height: 1.65;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 880px) {
+      .chapter-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background:
+        radial-gradient(circle at top left, rgba(248, 250, 252, 0.04), transparent 55%),
+        rgba(15, 23, 42, 0.96);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--color-text-soft);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 1),
+        0 14px 35px rgba(15, 23, 42, 0.96);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--color-text-muted);
+    }
+
+    .card-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 6px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .card-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .card-list-bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      margin-top: 6px;
+      background: radial-gradient(circle at 30% 10%, #bfdbfe 0, #3b82f6 50%, #1d4ed8 100%);
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.7);
+      flex-shrink: 0;
+    }
+
+    .muted {
+      color: var(--color-text-muted);
+      font-size: 12px;
+    }
+
+    .inline-code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 1px 5px;
+      border-radius: 6px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(15, 23, 42, 1);
+      color: var(--color-accent-strong);
+    }
+
+    /* Workflow steps */
+    .workflow {
+      margin-top: 10px;
+    }
+
+    .workflow-steps {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .workflow-step {
+      position: relative;
+      padding-left: 34px;
+    }
+
+    .workflow-step::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(248, 250, 252, 0.6);
+      background: radial-gradient(circle at 30% 15%, #fef9c3 0, #facc15 40%, #f97316 75%, #1e1b4b 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #111827;
+      box-shadow:
+        0 0 0 2px rgba(250, 204, 21, 0.25),
+        0 12px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    .workflow-step-title {
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 2px;
+    }
+
+    .workflow-step-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0;
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .workflow-step-meta span {
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .workflow-step-note {
+      font-size: 12px;
+      color: var(--color-text-soft);
+    }
+
+    /* Screenshot placeholder */
+    .screenshot-placeholder {
+      border-radius: var(--radius-md);
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      background:
+        radial-gradient(circle at top left, rgba(248, 250, 252, 0.03), transparent 60%),
+        rgba(15, 23, 42, 0.96);
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .screenshot-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--color-text-muted);
+    }
+
+    .screenshot-box {
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(15, 23, 42, 0.9),
+        rgba(15, 23, 42, 0.9) 6px,
+        rgba(31, 41, 55, 0.95) 6px,
+        rgba(31, 41, 55, 0.95) 12px
+      );
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-muted);
+    }
+
+    /* Layout & controls chapter */
+    .ui-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 880px) {
+      .ui-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .ui-map {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 10px 12px;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 65%),
+        rgba(15, 23, 42, 0.96);
+      font-size: 12px;
+      color: var(--color-text-soft);
+    }
+
+    .ui-map-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .ui-map-chip {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-text-muted);
+    }
+
+    .ui-map-chip-color {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    .ui-map-layout {
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 10px;
+      display: grid;
+      grid-template-rows: 30px minmax(80px, 1fr);
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .ui-map-toolbar {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr) 80px;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .ui-map-toolbar-item {
+      border-radius: 999px;
+      padding: 4px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.98);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .ui-map-canvas {
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      background:
+        radial-gradient(circle at top left, rgba(148, 163, 184, 0.16), transparent 65%),
+        repeating-linear-gradient(
+          0deg,
+          rgba(15, 23, 42, 0.92),
+          rgba(15, 23, 42, 0.92) 12px,
+          rgba(30, 64, 175, 0.9) 12px,
+          rgba(30, 64, 175, 0.9) 13px
+        );
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      color: var(--color-text-muted);
+      padding: 8px;
+    }
+
+    /* Lists */
+    .bulleted-list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--color-text-soft);
+    }
+
+    .bulleted-list li {
+      margin: 3px 0;
+    }
+
+    .inline-label {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    /* AI config list */
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 880px) {
+      .two-column {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Code blocks */
+    pre {
+      margin: 8px 0 0;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), transparent 70%),
+        rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(15, 23, 42, 1);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 1),
+        0 16px 30px rgba(15, 23, 42, 0.95);
+      overflow: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    code {
+      font-family: var(--font-mono);
+    }
+
+    .code-lang {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+    }
+
+    .token-key {
+      color: #facc15;
+    }
+
+    .token-string {
+      color: #4ade80;
+    }
+
+    .token-comment {
+      color: #6b7280;
+    }
+
+    /* FAQ */
+    .faq-list {
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .faq-item {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 8px 10px;
+      background: rgba(15, 23, 42, 0.98);
+      cursor: default;
+    }
+
+    .faq-question {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .faq-answer {
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--color-text-soft);
+    }
+
+    /* Appendix table */
+    .appendix-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 880px) {
+      .appendix-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .shortcut-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .shortcut-table th,
+    .shortcut-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+      text-align: left;
+    }
+
+    .shortcut-table th {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      background: rgba(15, 23, 42, 0.98);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-text-soft);
+    }
+
+    .term-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: var(--color-text-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .term-term {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .resource-list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      font-size: 13px;
+      color: var(--color-text-soft);
+    }
+
+    /* Back to top */
+    .back-to-top {
+      position: fixed;
+      right: 24px;
+      bottom: 26px;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 0, rgba(250, 250, 250, 0.3), transparent 55%),
+        rgba(15, 23, 42, 0.98);
+      color: var(--color-accent-strong);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 1),
+        0 15px 30px rgba(15, 23, 42, 0.96);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: opacity var(--transition-med), transform var(--transition-med), box-shadow var(--transition-fast);
+      z-index: 40;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .back-to-top:hover {
+      box-shadow:
+        0 0 0 1px rgba(250, 250, 250, 0.7),
+        0 22px 40px rgba(15, 23, 42, 1);
+    }
+
+    .back-to-top-icon {
+      font-size: 16px;
+    }
+
+    @media (max-width: 720px) {
+      .back-to-top {
+        right: 16px;
+        bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-label">教程导航</span>
+        <span class="sidebar-version">
+          <span class="sidebar-version-dot"></span>
+          v1.0
+        </span>
+      </div>
+      <div class="sidebar-search">
+        <span class="sidebar-search-icon">⌕</span>
+        <input type="text" id="toc-search" placeholder="搜索章节 / 关键词" aria-label="搜索教程章节" />
+      </div>
+
+      <nav class="sidebar-nav" aria-label="教程章节导航">
+        <div class="sidebar-section-label">章节</div>
+        <ul class="toc-list" id="toc-list">
+          <li class="toc-item active" data-target="#chapter-1">
+            <div class="toc-item-left">
+              <span class="toc-badge">01</span>
+              <span class="toc-label">欢迎与概述</span>
+            </div>
+            <span class="toc-status-dot" aria-hidden="true"></span>
+          </li>
+          <li class="toc-item" data-target="#chapter-2">
+            <div class="toc-item-left">
+              <span class="toc-badge">02</span>
+              <span class="toc-label">快速开始</span>
+            </div>
+          </li>
+          <li class="toc-item" data-target="#chapter-3">
+            <div class="toc-item-left">
+              <span class="toc-badge">03</span>
+              <span class="toc-label">7 步工作流程</span>
+            </div>
+          </li>
+          <li class="toc-item" data-target="#chapter-4">
+            <div class="toc-item-left">
+              <span class="toc-badge">04</span>
+              <span class="toc-label">界面与操作</span>
+            </div>
+          </li>
+          <li class="toc-item" data-target="#chapter-5">
+            <div class="toc-item-left">
+              <span class="toc-badge">05</span>
+              <span class="toc-label">AI 配置详解</span>
+            </div>
+          </li>
+          <li class="toc-item" data-target="#chapter-6">
+            <div class="toc-item-left">
+              <span class="toc-badge">06</span>
+              <span class="toc-label">常见问题 FAQ</span>
+            </div>
+          </li>
+          <li class="toc-item" data-target="#chapter-7">
+            <div class="toc-item-left">
+              <span class="toc-badge">07</span>
+              <span class="toc-label">附录：快捷键与术语</span>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-row">
+          <span>预计阅读：</span>
+          <span class="sidebar-footer-pill">
+            <span>≈ 15 分钟</span>
+          </span>
+        </div>
+        <div class="sidebar-footer-row">
+          <span>适用角色：</span>
+          <span class="sidebar-footer-pill">
+            <span>策划 · 交互 · UI</span>
+          </span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="app-card" aria-label="GUXY 使用教程">
+      <header class="app-header">
+        <div class="app-header-left">
+          <div class="logo-mark" aria-hidden="true"></div>
+          <div class="logo-text-block">
+            <div class="logo-row">
+              <div class="logo-title">GUXY</div>
+              <div class="logo-tag">Game UX Orbit</div>
+            </div>
+            <div class="logo-subtitle">游戏交互 AI 设计工作台</div>
+          </div>
+        </div>
+        <div class="app-header-right">
+          <div class="pill-label">
+            <span class="pill-dot"></span>
+            <span>交互设计工作流教程</span>
+          </div>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题（深色 / 浅色）">
+            <div class="theme-toggle-thumb">
+              <span class="theme-toggle-icon">☾</span>
+            </div>
+          </button>
+          <button class="header-mobile-toggle" id="sidebar-toggle" type="button" aria-label="打开导航">
+            ☰
+          </button>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="content-scroll" id="content-scroll">
+          <div class="content-inner">
+            <section class="hero" aria-labelledby="hero-title">
+              <div>
+                <div class="hero-eyebrow">
+                  <span>端到端教程</span>
+                  <span class="hero-eyebrow-highlight">从策划文档到可落地 UI</span>
+                </div>
+                <h1 class="hero-title" id="hero-title">
+                  <span>GUXY 使用教程</span><br />
+                  为设计师与策划而设
+                </h1>
+                <p class="hero-subtitle">
+                  本教程将带你在一套统一界面中，完成从策划案解析、交互架构搭建，到开发规划与高保真 UI 输出的完整工作流程。
+                </p>
+                <div class="hero-meta-row">
+                  <div class="hero-meta-pill">
+                    面向角色：<strong>交互设计 / 系统策划 / UI 设计</strong>
+                  </div>
+                  <div class="hero-meta-pill">
+                    前置能力：<strong>会读策划案 · 懂基础交互</strong>
+                  </div>
+                </div>
+                <div class="hero-actions">
+                  <button class="btn-primary" type="button" data-scroll-to="#chapter-2">
+                    从「快速开始」开始
+                  </button>
+                  <button class="btn-ghost" type="button" data-scroll-to="#chapter-3">
+                    直接查看 7 步工作流
+                  </button>
+                </div>
+              </div>
+              <div class="hero-secondary" aria-label="GUXY 工作流总览">
+                <div class="hero-flow-header">
+                  <div class="hero-flow-title">GUXY 标准工作流</div>
+                  <div class="hero-flow-badge">7 个步骤 · 3 大产出</div>
+                </div>
+                <div class="hero-flow-steps">
+                  <div class="hero-flow-step">
+                    <div class="hero-flow-step-number">STEP 01-02</div>
+                    <div class="hero-flow-step-title">从策划案到交互架构</div>
+                    <p class="muted">
+                      自动解析策划案，生成卡片交互架构，为后续 UI / 开发统一语言。
+                    </p>
+                  </div>
+                  <div class="hero-flow-step">
+                    <div class="hero-flow-step-number">STEP 03-05</div>
+                    <div class="hero-flow-step-title">打磨结构 & 生成规划</div>
+                    <p class="muted">
+                      手动调整结构，导出 AI 可读架构，一键生成开发任务与分工规划。
+                    </p>
+                  </div>
+                  <div class="hero-flow-step">
+                    <div class="hero-flow-step-number">STEP 06-07</div>
+                    <div class="hero-flow-step-title">开发自检 & 高保真 UI</div>
+                    <p class="muted">
+                      协助开发自检流程，最终在同一结构上生成高保真 UI / Figma 资源。
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 第一章：欢迎与概述 -->
+            <section class="chapter" id="chapter-1" aria-labelledby="chapter-1-title">
+              <header class="chapter-header">
+                <div>
+                  <div class="chapter-kicker">
+                    第一章
+                    <span class="chapter-tag">了解 GUXY 是什么</span>
+                  </div>
+                  <h2 class="chapter-title" id="chapter-1-title">
+                    <span class="chapter-pill">01</span>
+                    欢迎来到 GUXY
+                  </h2>
+                </div>
+              </header>
+              <div class="chapter-body">
+                <p>
+                  GUXY 是一个围绕「卡片交互架构」设计的
+                  <strong>游戏交互设计协同平台</strong>。它把策划案、交互设计、开发规划和 UI
+                  设计统一到同一套结构之上，让不同角色可以围绕同一「源结构」协同工作。
+                </p>
+                <div class="chapter-grid">
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>GUXY 的核心价值</span>
+                      </div>
+                      <span class="card-badge">为什么要用它？</span>
+                    </div>
+                    <ul class="card-list">
+                      <li>
+                        <span class="card-list-bullet"></span>
+                        <div>
+                          <span class="inline-label">统一语言：</span> 使用卡片交互架构，将页面、模块、状态、交互关系统一抽象，避免策划、交互、UI、开发之间的口头「翻译损失」。
+                        </div>
+                      </li>
+                      <li>
+                        <span class="card-list-bullet"></span>
+                        <div>
+                          <span class="inline-label">结构驱动：</span> 先有结构后有界面，一次梳理结构即可驱动
+                          AI 生成开发规划、高保真 UI、交互文档等多种产出。
+                        </div>
+                      </li>
+                      <li>
+                        <span class="card-list-bullet"></span>
+                        <div>
+                          <span class="inline-label">AI 协同：</span> 通过 AI
+                          自动解析策划案、补全交互细节，并在后续每一步持续提供智能建议，而不是一次性生成。
+                        </div>
+                      </li>
+                    </ul>
+                  </article>
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>适用人群</span>
+                      </div>
+                      <span class="card-badge">你在这里能做什么？</span>
+                    </div>
+                    <ul class="card-list">
+                      <li>
+                        <span class="card-list-bullet"></span>
+                        <div>
+                          <span class="inline-label">系统策划：</span> 将策划案快速转化为清晰的交互架构，减少与设计 / 开发的反复解释与确认。
+                        </div>
+                      </li>
+                      <li>
+                        <span class="card-list-bullet"></span>
+                        <div>
+                          <span class="inline-label">交互设计师：</span> 基于自动生成的卡片结构，继续补充交互细节、异常流程与状态，输出更可靠的交互方案。
+                        </div>
+                      </li>
+                      <li>
+                        <span class="card-list-bullet"></span>
+                        <div>
+                          <span class="inline-label">UI 设计师：</span> 直接在 GUXY
+                          提供的结构上生成 / 调整高保真 UI，然后导出到 Figma / 设计系统。
+                        </div>
+                      </li>
+                    </ul>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <!-- 第二章：快速开始 -->
+            <section class="chapter" id="chapter-2" aria-labelledby="chapter-2-title">
+              <header class="chapter-header">
+                <div>
+                  <div class="chapter-kicker">
+                    第二章
+                    <span class="chapter-tag">5 分钟完成基础配置</span>
+                  </div>
+                  <h2 class="chapter-title" id="chapter-2-title">
+                    <span class="chapter-pill">02</span>
+                    快速开始：安装与首次配置
+                  </h2>
+                </div>
+              </header>
+              <div class="chapter-body">
+                <p>
+                  本章节帮助你从「没有环境」到「可以导入第一份策划案」——包括访问方式、首次登录配置以及
+                  AI API 密钥的正确填写方式。
+                </p>
+
+                <div class="chapter-grid">
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>访问方式</span>
+                      </div>
+                      <span class="card-badge">在线 / 本地</span>
+                    </div>
+                    <ul class="bulleted-list">
+                      <li>
+                        <span class="inline-label">在线版本：</span> 通过团队提供的 GUXY 访问链接，在浏览器中直接使用，无需本地安装。推荐大多数设计师与策划人员使用。
+                      </li>
+                      <li>
+                        <span class="inline-label">本地版本：</span> 用于需要本地部署或对数据有更高保密要求的团队。通常通过内部文档获取安装包与启动脚本（例如
+                        <span class="inline-code">Launch.bat</span>）。
+                      </li>
+                    </ul>
+                    <p class="muted">
+                      如你正在阅读本教程，大概率已经在正确的环境中。只需确认你能正常启动 GUXY 主界面即可继续。
+                    </p>
+                  </article>
+
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>首次登录与工作区</span>
+                      </div>
+                      <span class="card-badge">建议：1 人 1 工作区</span>
+                    </div>
+                    <ul class="bulleted-list">
+                      <li>
+                        <span class="inline-label">创建个人工作区：</span> 第一次使用时，建议以个人账号或工号创建独立工作区，用于存放你负责的系统 / 项目。
+                      </li>
+                      <li>
+                        <span class="inline-label">设置语言与主题：</span> 在右上角设置中选择界面语言（推荐「简体中文」）和主题（深色 / 浅色）。你也可以通过本页面右上角开关先体验主题切换效果。
+                      </li>
+                      <li>
+                        <span class="inline-label">本地存储位置：</span> 若为本地版本，可在设置中查看当前项目存储路径，便于备份与同步。
+                      </li>
+                    </ul>
+                  </article>
+                </div>
+
+                <div class="chapter-grid" style="margin-top: 14px;">
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>配置 AI API 密钥</span>
+                      </div>
+                      <span class="card-badge">必做 · 否则无法调用 AI</span>
+                    </div>
+                    <p>
+                      为了让 GUXY 能够自动解析策划案与生成交互建议，你需要准备至少一个可用的 AI
+                      模型提供方（例如 OpenAI / 国内大模型平台）的 API Key。
+                    </p>
+                    <ol class="bulleted-list">
+                      <li>
+                        打开 GUXY 右上角设置，进入
+                        <span class="inline-code">AI 配置</span> 页面。
+                      </li>
+                      <li>
+                        在「模型提供方」下拉中选择你要使用的平台，例如
+                        <span class="inline-code">OpenAI</span> 或团队内部代理服务。
+                      </li>
+                      <li>
+                        将在平台后台获取到的
+                        <span class="inline-code">API Key</span>
+                        粘贴到对应输入框中，注意不要额外包含空格或换行。
+                      </li>
+                      <li>
+                        点击「测试连接」，确认返回状态为「可用」，再保存配置。
+                      </li>
+                    </ol>
+                    <p class="muted">
+                      如果你不确定自己是否有权限申请 API Key，可以先与技术负责人确认是否已有团队统一配置。
+                    </p>
+                  </article>
+
+                  <aside class="screenshot-placeholder" aria-label="API 密钥配置示意">
+                    <div class="screenshot-tag">示意 · API 密钥配置界面</div>
+                    <div class="screenshot-box">
+                      <span>此处为「AI 配置」页面示意图，可在实际文档中替换为真实截图。</span>
+                    </div>
+                    <ul class="bulleted-list">
+                      <li>左侧为「全局设置 &gt; AI 配置」导航。</li>
+                      <li>中间为模型提供方下拉、模型名称、API Key 输入框。</li>
+                      <li>右上角有「测试连接」按钮，测试通过后会显示「连接成功」提示。</li>
+                    </ul>
+                  </aside>
+                </div>
+
+                <pre aria-label="示例：通过环境变量配置 API Key">
+<div class="code-lang">示例：通过环境变量配置 API Key（仅开发 / 本地部署时使用）</div><code><span class="token-comment"># Windows PowerShell</span>
+<span class="token-key">$env</span>:OPENAI_API_KEY = <span class="token-string">"sk-xxxxx"</span>
+
+<span class="token-comment"># macOS / Linux</span>
+<span class="token-key">export</span> OPENAI_API_KEY=<span class="token-string">"sk-xxxxx"</span></code></pre>
+              </div>
+            </section>
+
+            <!-- 第三章：7 步工作流程详解 -->
+            <section class="chapter" id="chapter-3" aria-labelledby="chapter-3-title">
+              <header class="chapter-header">
+                <div>
+                  <div class="chapter-kicker">
+                    第三章
+                    <span class="chapter-tag">标准 7 步工作流程</span>
+                  </div>
+                  <h2 class="chapter-title" id="chapter-3-title">
+                    <span class="chapter-pill">03</span>
+                    从策划案到高保真 UI：7 步流程
+                  </h2>
+                </div>
+              </header>
+              <div class="chapter-body">
+                <p>
+                  以下 7 个步骤构成了 GUXY 推荐的完整工作流。每一步都包含
+                  <strong>目标说明、操作步骤与注意事项</strong>，你可以按顺序执行，也可以根据团队分工拆分给不同角色。
+                </p>
+
+                <div class="workflow">
+                  <ol class="workflow-steps">
+                    <li class="workflow-step" data-step="01">
+                      <div class="workflow-step-title">AI 分析策划案</div>
+                      <div class="workflow-step-meta">
+                        <span>目标：提取页面 / 功能模块与关键流程</span>
+                        <span>输入：一份清晰的系统策划案</span>
+                      </div>
+                      <p class="workflow-step-note">
+                        在首页点击「新建项目」，选择「从策划案导入」。上传或粘贴系统策划案文本，勾选需要重点解析的章节，例如「基础规则」「主流程」「界面说明」，随后点击「让
+                        AI 分析」。
+                      </p>
+                      <ul class="bulleted-list">
+                        <li>建议先自行整理策划案结构（标题层级、章节划分），AI 更容易识别。</li>
+                        <li>对于已有旧项目，可仅粘贴本次改版相关部分，减少噪音。</li>
+                      </ul>
+                    </li>
+
+                    <li class="workflow-step" data-step="02">
+                      <div class="workflow-step-title">生成卡片交互架构</div>
+                      <div class="workflow-step-meta">
+                        <span>目标：得到一份「全局交互地图」</span>
+                        <span>输出：卡片交互架构初稿</span>
+                      </div>
+                      <p class="workflow-step-note">
+                        在分析结果页中，点击「生成卡片交互架构」。GUXY 会根据策划案结构，自动创建页面节点、状态卡片与主要交互连线。
+                      </p>
+                      <ul class="bulleted-list">
+                        <li>重点检查：是否遗漏关键页面？是否有异常流程未生成？</li>
+                        <li>如果某部分结构明显不合理，可以选中相关卡片块，点击「重新让 AI
+                          建议结构」。</li>
+                      </ul>
+                    </li>
+
+                    <li class="workflow-step" data-step="03">
+                      <div class="workflow-step-title">手动调整卡片架构</div>
+                      <div class="workflow-step-meta">
+                        <span>目标：把「AI 初稿」打磨成可落地结构</span>
+                        <span>角色：交互设计 / 系统策划</span>
+                      </div>
+                      <p class="workflow-step-note">
+                        使用画布工具调整卡片布局、合并 / 拆分页面、补充状态与异常路径。你可以随时框选某一组卡片，右键调用
+                        AI 帮你「补全异常情况」或「优化命名规范」。
+                      </p>
+                      <ul class="bulleted-list">
+                        <li>建议使用统一命名方式，例如「系统 - 页面 - 功能块」。</li>
+                        <li>对于交互复杂的状态（例如战斗、结算），可以单独抽出「子架构」卡片群。</li>
+                      </ul>
+                    </li>
+
+                    <li class="workflow-step" data-step="04">
+                      <div class="workflow-step-title">导出 AI 可读架构</div>
+                      <div class="workflow-step-meta">
+                        <span>目标：把结构转化为机器和人都能读懂的描述</span>
+                        <span>输出：结构 JSON / Markdown 文档</span>
+                      </div>
+                      <p class="workflow-step-note">
+                        在右上角点击「导出」，选择「AI 可读结构」。GUXY 会生成一份包含
+                        ID、名称、类型、交互关系的结构文档，可用于后续 AI 自动生成代码或联动外部工具。
+                      </p>
+                      <ul class="bulleted-list">
+                        <li>建议与开发同事确认字段命名是否符合项目现有规范。</li>
+                        <li>如需传给外部 AI 工具，可勾选「移除敏感字段」选项。</li>
+                      </ul>
+                    </li>
+
+                    <li class="workflow-step" data-step="05">
+                      <div class="workflow-step-title">生成开发规划</div>
+                      <div class="workflow-step-meta">
+                        <span>目标：自动拆分开发任务与优先级</span>
+                        <span>输出：任务列表 / 里程碑</span>
+                      </div>
+                      <p class="workflow-step-note">
+                        在卡片架构视图中切换到「开发视图」，选择本次版本范围的卡片，点击「生成开发规划」。GUXY 会根据模块复杂度与前后置依赖，建议开发顺序与粒度。
+                      </p>
+                      <ul class="bulleted-list">
+                        <li>可以为不同团队（客户端 / 后端 / UI 实现）分别生成视图。</li>
+                        <li>支持导出为表格、Jira / 飞书多维表格所需格式。</li>
+                      </ul>
+                    </li>
+
+                    <li class="workflow-step" data-step="06">
+                      <div class="workflow-step-title">开发与自检</div>
+                      <div class="workflow-step-meta">
+                        <span>目标：确保实现与交互架构一致</span>
+                        <span>角色：开发 / 测试 / 交互</span>
+                      </div>
+                      <p class="workflow-step-note">
+                        开发阶段可以以「卡片」为单位进行自检：每完成一张卡片，对照其输入 / 输出条件、状态变化与异常路径，完成「自检清单」勾选。
+                      </p>
+                      <ul class="bulleted-list">
+                        <li>GUXY 可自动根据卡片结构生成「自检脚本」，包含关键操作路径。</li>
+                        <li>自检通过后，可以在卡片上标记状态（例如
+                          Ready / In Review / Done）。</li>
+                      </ul>
+                    </li>
+
+                    <li class="workflow-step" data-step="07">
+                      <div class="workflow-step-title">生成高保真 UI</div>
+                      <div class="workflow-step-meta">
+                        <span>目标：在统一结构上完成界面视觉化</span>
+                        <span>输出：高保真 UI / Figma 文件</span>
+                      </div>
+                      <p class="workflow-step-note">
+                        在卡片架构稳定后，切换至「UI 视图」，为关键页面指定 UI 模版与样式基线（例如项目内现有组件库），然后使用
+                        AI 一键生成高保真原型。
+                      </p>
+                      <ul class="bulleted-list">
+                        <li>UI 设计师可直接在 GUXY 中调整布局与样式，再导出到 Figma。</li>
+                        <li>确保「组件命名」与开发项目中的组件库保持一致，减少后续沟通成本。</li>
+                      </ul>
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </section>
+
+            <!-- 第四章：界面操作指南 -->
+            <section class="chapter" id="chapter-4" aria-labelledby="chapter-4-title">
+              <header class="chapter-header">
+                <div>
+                  <div class="chapter-kicker">
+                    第四章
+                    <span class="chapter-tag">主界面 · 工具栏 · 画布</span>
+                  </div>
+                  <h2 class="chapter-title" id="chapter-4-title">
+                    <span class="chapter-pill">04</span>
+                    界面操作指南
+                  </h2>
+                </div>
+              </header>
+              <div class="chapter-body">
+                <p>
+                  本章介绍 GUXY 主界面布局、工具栏功能，以及在画布中如何进行缩放、平移与选择。理解这些基础操作，将显著提升你的工作效率。
+                </p>
+
+                <div class="ui-grid">
+                  <article class="ui-map" aria-label="主界面布局示意">
+                    <div class="ui-map-legend">
+                      <span class="ui-map-chip">
+                        <span class="ui-map-chip-color" style="background:#22c55e;"></span>
+                        左侧：项目 / 结构导航
+                      </span>
+                      <span class="ui-map-chip">
+                        <span class="ui-map-chip-color" style="background:#facc15;"></span>
+                        中间：卡片交互画布
+                      </span>
+                      <span class="ui-map-chip">
+                        <span class="ui-map-chip-color" style="background:#38bdf8;"></span>
+                        右侧：属性 / AI 面板
+                      </span>
+                    </div>
+                    <div class="ui-map-layout">
+                      <div class="ui-map-toolbar">
+                        <div class="ui-map-toolbar-item">
+                          <span>项目列表 / 场景切换</span>
+                        </div>
+                        <div class="ui-map-toolbar-item">
+                          <span>工具栏：选择 · 连接 · 对齐 · 对齐网格</span>
+                        </div>
+                        <div class="ui-map-toolbar-item">
+                          <span>缩放控制 / 适配画布</span>
+                        </div>
+                      </div>
+                      <div class="ui-map-canvas">
+                        <span>中部为卡片交互画布，支持拖拽、缩放与多选操作。可通过鼠标滚轮缩放、按住空格键 + 拖拽进行平移。</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>画布操作</span>
+                      </div>
+                      <span class="card-badge">推荐：接近 Figma / Whiteboard 手感</span>
+                    </div>
+                    <ul class="bulleted-list">
+                      <li>
+                        <span class="inline-label">缩放：</span> 使用鼠标滚轮缩放画布，按住
+                        <span class="kbd">Ctrl</span> / <span class="kbd">⌘</span>
+                        的同时滚动可更精细地调整缩放比例。
+                      </li>
+                      <li>
+                        <span class="inline-label">平移：</span> 按住空格键，光标会变为「抓手」，此时按住左键拖拽即可平移画布。
+                      </li>
+                      <li>
+                        <span class="inline-label">选择：</span> 单击选择单个卡片；按住
+                        <span class="kbd">Shift</span>
+                        进行多选；在空白处拖动形成框选矩形，快速圈选一组卡片与连线。
+                      </li>
+                      <li>
+                        <span class="inline-label">连线：</span> 在卡片的输出锚点上按下并拖拽到目标卡片，即可创建交互连线；双击连线可编辑其条件或说明文字。
+                      </li>
+                    </ul>
+                    <p class="muted">
+                      小技巧：当画布内容很多时，可以使用「缩略图 / 全局视图」快速定位当前所在区域。
+                    </p>
+                  </article>
+                </div>
+
+                <div class="two-column">
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>项目管理</span>
+                      </div>
+                      <span class="card-badge">新建 · 保存 · 导出</span>
+                    </div>
+                    <ul class="bulleted-list">
+                      <li>
+                        <span class="inline-label">新建项目：</span> 在左上角「项目」菜单中选择「新建」，可选择空白项目或从策划案导入。
+                      </li>
+                      <li>
+                        <span class="inline-label">保存：</span> GUXY 默认开启自动保存，你也可以随时点击顶部「保存」按钮，确保当前结构被写入磁盘。
+                      </li>
+                      <li>
+                        <span class="inline-label">导出：</span> 支持导出为交互结构 JSON、Markdown 文档、开发任务表格、Figma 接入文件等多种格式。
+                      </li>
+                    </ul>
+                  </article>
+
+                  <article class="card">
+                    <div="card-header" class="card-header">
+                      <div class="card-title">
+                        <span>工具栏常用功能</span>
+                      </div>
+                      <span class="card-badge">熟练后极大提效</span>
+                    </div>
+                    <ul class="bulleted-list">
+                      <li>
+                        <span class="inline-label">对齐 / 整理：</span> 选中多张卡片后，使用顶部「对齐到网格」「等间距分布」等工具，快速排布结构。
+                      </li>
+                      <li>
+                        <span class="inline-label">分组：</span> 将一组逻辑上相关的卡片分为一个「簇」，可折叠 / 展开，适合处理大型系统。
+                      </li>
+                      <li>
+                        <span class="inline-label">AI 建议：</span> 在选中某一区域后点击
+                        AI 按钮，可以请求「补全边界情况」「检查信息缺失」「生成说明文档」等。
+                      </li>
+                    </ul>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <!-- 第五章：AI 配置详解 -->
+            <section class="chapter" id="chapter-5" aria-labelledby="chapter-5-title">
+              <header class="chapter-header">
+                <div>
+                  <div class="chapter-kicker">
+                    第五章
+                    <span class="chapter-tag">模型选择 · Key 管理 · 常见问题</span>
+                  </div>
+                  <h2 class="chapter-title" id="chapter-5-title">
+                    <span class="chapter-pill">05</span>
+                    AI 配置详解
+                  </h2>
+                </div>
+              </header>
+              <div class="chapter-body">
+                <p>
+                  本章将更全面地介绍 GUXY 支持的 AI 模型类型、API Key 获取方法，以及在实际使用中常见的配置问题与排查思路。
+                </p>
+
+                <div class="two-column">
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>支持的 AI 模型</span>
+                      </div>
+                      <span class="card-badge">按地区 / 合规性选择</span>
+                    </div>
+                    <ul class="bulleted-list">
+                      <li>
+                        <span class="inline-label">通用大模型：</span> 例如 OpenAI、Anthropic、Azure OpenAI
+                        等。适合文本解析、结构生成与对话式协作。
+                      </li>
+                      <li>
+                        <span class="inline-label">国内大模型：</span> 例如通义、文心、月之暗面等。适合对外网访问有限制或需本地化部署的团队。
+                      </li>
+                      <li>
+                        <span class="inline-label">团队自建模型：</span> 若团队已有自建模型服务，可通过
+                        HTTP API 接口接入，只需在 GUXY 中配置对应的
+                        <span class="inline-code">Base URL</span> 与认证方式。
+                      </li>
+                    </ul>
+                    <p class="muted">
+                      不同模型在解析策划案与生成 UI 提示词时效果略有差异，建议先在小项目上试验，再确定团队推荐配置。
+                    </p>
+                  </article>
+
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>API Key 获取方法（示例）</span>
+                      </div>
+                      <span class="card-badge">以 OpenAI 为例</span>
+                    </div>
+                    <ol class="bulleted-list">
+                      <li>访问模型提供方官网，使用公司邮箱注册账号。</li>
+                      <li>进入「API」或「开发者控制台」页面，创建新的 API Key。</li>
+                      <li>将 Key 复制到 GUXY 的「AI 配置」页面中，并立即对原始 Key 进行妥善保存。</li>
+                      <li>如需多人共用，优先使用团队 Key 或代理服务，不建议开发人员共享个人 Key。</li>
+                    </ol>
+                    <p class="muted">
+                      <strong>安全提示：</strong> 不要在截图、视频录屏或公共文档中暴露完整 API Key。
+                      如不慎泄露，请立刻在模型提供方后台作废该 Key 并重新生成。
+                    </p>
+                  </article>
+                </div>
+
+                <article class="card" style="margin-top: 14px;">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <span>常见配置问题与排查</span>
+                    </div>
+                    <span class="card-badge">当「测试连接」失败时</span>
+                  </div>
+                  <ul class="bulleted-list">
+                    <li>
+                      <span class="inline-label">网络问题：</span> 检查本机 / 内网是否能访问模型提供方的域名，必要时请团队配置
+                      HTTP / SOCKS 代理。
+                    </li>
+                    <li>
+                      <span class="inline-label">Key 无权限：</span> 确认当前 Key
+                      是否已开通目标模型的调用权限，或是否已超出账户额度限制。
+                    </li>
+                    <li>
+                      <span class="inline-label">Base URL 填写错误：</span> 若使用代理或自建服务，确保
+                      <span class="inline-code">Base URL</span>
+                      不包含多余路径，例如不要重复填写
+                      <span class="inline-code">/v1</span>。
+                    </li>
+                    <li>
+                      <span class="inline-label">模型名称不匹配：</span> 根据服务商文档填写准确的模型名称，如
+                      <span class="inline-code">gpt-4.1</span>、
+                      <span class="inline-code">gpt-4o</span> 等。
+                    </li>
+                  </ul>
+                </article>
+              </div>
+            </section>
+
+            <!-- 第六章：常见问题 FAQ -->
+            <section class="chapter" id="chapter-6" aria-labelledby="chapter-6-title">
+              <header class="chapter-header">
+                <div>
+                  <div class="chapter-kicker">
+                    第六章
+                    <span class="chapter-tag">排查常见错误与使用疑惑</span>
+                  </div>
+                  <h2 class="chapter-title" id="chapter-6-title">
+                    <span class="chapter-pill">06</span>
+                    常见问题 FAQ
+                  </h2>
+                </div>
+              </header>
+              <div class="chapter-body">
+                <p>
+                  本章整理了部分高频问题，按「启动问题 / API 连接问题 / 数据存储问题」分类。如果这里仍未覆盖你的情况，建议将截图与日志反馈给技术支持。
+                </p>
+
+                <ul class="faq-list">
+                  <li class="faq-item">
+                    <div class="faq-question">
+                      <span>启动时窗口一闪而过 / 无法打开界面怎么办？</span>
+                      <span class="muted">启动问题</span>
+                    </div>
+                    <div class="faq-answer">
+                      <ul class="bulleted-list">
+                        <li>确认已安装团队要求的运行环境（如 Node.js / .NET / 特定运行库）。</li>
+                        <li>尝试在命令行中手动运行启动脚本（例如 <span class="inline-code">Launch.bat</span>），查看是否有报错输出。</li>
+                        <li>如为本地版本，确认当前路径中不包含中文或特殊符号，必要时将整个项目移动到更简单的目录。</li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li class="faq-item">
+                    <div class="faq-question">
+                      <span>「测试连接」提示 API 无法访问 / 超时？</span>
+                      <span class="muted">API 连接问题</span>
+                    </div>
+                    <div class="faq-answer">
+                      <ul class="bulleted-list">
+                        <li>先在浏览器中访问模型提供方的 <span class="inline-code">/status</span> 或示例接口，确认网络连通性。</li>
+                        <li>检查当前使用的代理工具是否对 GUXY 生效（有些仅作用于浏览器）。</li>
+                        <li>如果是公司内网环境，需由运维统一开通访问白名单或配置内部代理服务。</li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li class="faq-item">
+                    <div class="faq-question">
+                      <span>项目内容会存到哪里？是否支持多人协作？</span>
+                      <span class="muted">数据存储问题</span>
+                    </div>
+                    <div class="faq-answer">
+                      <ul class="bulleted-list">
+                        <li>在线版本通常存储在团队的云端项目空间，可通过账号登录在不同设备访问。</li>
+                        <li>本地版本项目一般保存在你本机的特定目录，可以通过 Git / 云盘进行手动同步。</li>
+                        <li>多人协作建议采用「一人一个分支 / 副本」，通过结构导入导出进行合并，避免同时编辑同一主项目造成冲突。</li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- 第七章：附录 -->
+            <section class="chapter" id="chapter-7" aria-labelledby="chapter-7-title">
+              <header class="chapter-header">
+                <div>
+                  <div class="chapter-kicker">
+                    第七章
+                    <span class="chapter-tag">快捷键 · 术语表 · 资源链接</span>
+                  </div>
+                  <h2 class="chapter-title" id="chapter-7-title">
+                    <span class="chapter-pill">07</span>
+                    附录：快捷键与术语
+                  </h2>
+                </div>
+              </header>
+              <div class="chapter-body">
+                <p>
+                  本附录收录了在 GUXY 中最常用的一些快捷键，以及文中出现的关键术语解释。建议在实际使用时将本节固定在侧边，随时查阅。
+                </p>
+
+                <div class="appendix-grid">
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>常用快捷键</span>
+                      </div>
+                      <span class="card-badge">默认（可在设置中自定义）</span>
+                    </div>
+                    <table class="shortcut-table" aria-label="GUXY 常用快捷键">
+                      <thead>
+                        <tr>
+                          <th scope="col">操作</th>
+                          <th scope="col">Windows / Linux</th>
+                          <th scope="col">macOS</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>保存项目</td>
+                          <td><span class="kbd">Ctrl</span> + <span class="kbd">S</span></td>
+                          <td><span class="kbd">⌘</span> + <span class="kbd">S</span></td>
+                        </tr>
+                        <tr>
+                          <td>撤销</td>
+                          <td><span class="kbd">Ctrl</span> + <span class="kbd">Z</span></td>
+                          <td><span class="kbd">⌘</span> + <span class="kbd">Z</span></td>
+                        </tr>
+                        <tr>
+                          <td>重做</td>
+                          <td><span class="kbd">Ctrl</span> + <span class="kbd">Y</span></td>
+                          <td><span class="kbd">⌘</span> + <span class="kbd">⇧</span> + <span class="kbd">Z</span></td>
+                        </tr>
+                        <tr>
+                          <td>适配画布</td>
+                          <td colspan="2"><span class="kbd">Shift</span> + <span class="kbd">1</span></td>
+                        </tr>
+                        <tr>
+                          <td>放大 / 缩小</td>
+                          <td colspan="2"><span class="kbd">Ctrl / ⌘</span> + 鼠标滚轮</td>
+                        </tr>
+                        <tr>
+                          <td>框选</td>
+                          <td colspan="2">在空白区域按住鼠标左键拖拽</td>
+                        </tr>
+                        <tr>
+                          <td>平移画布</td>
+                          <td colspan="2"><span class="kbd">Space</span> + 拖动</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </article>
+
+                  <article class="card">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <span>术语表</span>
+                      </div>
+                      <span class="card-badge">建议团队统一理解</span>
+                    </div>
+                    <ul class="term-list">
+                      <li>
+                        <div class="term-term">卡片（Card）</div>
+                        <div>在 GUXY 中，一张卡片代表一个可感知的交互节点，如页面、状态、弹窗或关键流程步骤。</div>
+                      </li>
+                      <li>
+                        <div class="term-term">卡片交互架构</div>
+                        <div>由若干卡片和连线构成的整体结构图，用于表达系统内所有关键交互路径与状态关系。</div>
+                      </li>
+                      <li>
+                        <div class="term-term">AI 可读架构</div>
+                        <div>将卡片结构序列化后的描述文档，既方便人类阅读，也适合输入给不同的 AI 模型进行自动化处理。</div>
+                      </li>
+                      <li>
+                        <div class="term-term">自检清单</div>
+                        <div>由 GUXY 根据卡片结构自动生成的检查步骤列表，辅助开发和测试验证实现质量。</div>
+                      </li>
+                    </ul>
+
+                    <h3 class="card-title" style="margin-top:10px;font-size:13px;">相关资源链接</h3>
+                    <ul class="resource-list">
+                      <li>团队内部 GUXY 使用规范（若有）：请向项目负责人索取最新链接。</li>
+                      <li>模型服务商官方文档：根据实际选择的模型填写对应地址。</li>
+                      <li>设计系统 / UI 组件库文档：用于对齐组件命名与视觉规范。</li>
+                    </ul>
+                  </article>
+                </div>
+
+                <p class="muted" style="margin-top: 12px;">
+                  至此，你已经了解如何在 GUXY 中完成从策划案到交互架构、开发规划与高保真 UI 的完整流程。建议在第一个真实项目中，一边实际操作一边回顾本教程内容。
+                </p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="返回页面顶部">
+    <span class="back-to-top-icon">↑</span>
+  </button>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeToggleIcon = themeToggle?.querySelector(".theme-toggle-icon");
+      const sidebarToggle = document.getElementById("sidebar-toggle");
+      const sidebar = document.getElementById("sidebar");
+      const backToTop = document.getElementById("back-to-top");
+      const tocList = document.getElementById("toc-list");
+      const tocSearch = document.getElementById("toc-search");
+      const heroButtons = document.querySelectorAll("[data-scroll-to]");
+
+      function setTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        try {
+          localStorage.setItem("guxy-docs-theme", theme);
+        } catch (e) { }
+        if (themeToggleIcon) {
+          themeToggleIcon.textContent = theme === "light" ? "☀" : "☾";
+        }
+      }
+
+      // 初始化主题（优先本地缓存，其次系统偏好）
+      (function initTheme() {
+        try {
+          const stored = localStorage.getItem("guxy-docs-theme");
+          if (stored === "light" || stored === "dark") {
+            setTheme(stored);
+            return;
+          }
+        } catch (e) { }
+
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+          setTheme("light");
+        } else {
+          setTheme("dark");
+        }
+      })();
+
+      themeToggle?.addEventListener("click", function () {
+        const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+        setTheme(current === "light" ? "dark" : "light");
+      });
+
+      // 移动端侧边栏开关
+      sidebarToggle?.addEventListener("click", function () {
+        if (!sidebar) return;
+        const isOpen = sidebar.classList.contains("is-open");
+        sidebar.classList.toggle("is-open", !isOpen);
+        sidebarToggle.setAttribute("aria-label", isOpen ? "打开导航" : "关闭导航");
+      });
+
+      // TOC 点击与滚动同步
+      const tocItems = tocList ? Array.from(tocList.querySelectorAll(".toc-item")) : [];
+      const chapterSections = tocItems
+        .map((item) => {
+          const targetSelector = item.getAttribute("data-target");
+          if (!targetSelector) return null;
+          const section = document.querySelector(targetSelector);
+          return section || null;
+        })
+        .filter(Boolean);
+
+      function scrollToSection(targetSelector) {
+        const section = document.querySelector(targetSelector);
+        if (!section) return;
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (sidebar && sidebar.classList.contains("is-open")) {
+          sidebar.classList.remove("is-open");
+        }
+      }
+
+      tocItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          const targetSelector = item.getAttribute("data-target");
+          if (!targetSelector) return;
+          scrollToSection(targetSelector);
+        });
+      });
+
+      heroButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetSelector = btn.getAttribute("data-scroll-to");
+          if (!targetSelector) return;
+          scrollToSection(targetSelector);
+        });
+      });
+
+      // 根据滚动位置高亮当前章节
+      function updateActiveToc() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+        let currentId = null;
+
+        chapterSections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          const offsetTop = rect.top + scrollY - 96;
+          if (scrollY >= offsetTop) {
+            currentId = "#" + (section.id || "");
+          }
+        });
+
+        if (!currentId) return;
+        tocItems.forEach((item) => {
+          const target = item.getAttribute("data-target");
+          item.classList.toggle("active", target === currentId);
+        });
+      }
+
+      window.addEventListener("scroll", () => {
+        // 返回顶部按钮显示 / 隐藏
+        if (backToTop) {
+          const shouldShow = window.scrollY > 260;
+          backToTop.classList.toggle("visible", shouldShow);
+        }
+        updateActiveToc();
+      });
+
+      backToTop?.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // TOC 搜索过滤
+      tocSearch?.addEventListener("input", () => {
+        const keyword = tocSearch.value.trim().toLowerCase();
+        tocItems.forEach((item) => {
+          const label = item.querySelector(".toc-label");
+          const text = label ? label.textContent.toLowerCase() : "";
+          const match = !keyword || text.includes(keyword);
+          item.style.display = match ? "" : "none";
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

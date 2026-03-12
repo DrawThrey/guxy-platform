@@ -161,6 +161,11 @@
       GUXY.AgentIsland.init();
     }
     
+    // 初始化引导模块
+    if (GUXY.Onboarding) {
+      GUXY.Onboarding.init();
+    }
+    
     console.log('UI components initialized');
   }
   
@@ -208,6 +213,11 @@
    */
   async function initApplication() {
     console.log('Initializing application...');
+    
+    // 初始化引导模块
+    if (GUXY.Onboarding) {
+      GUXY.Onboarding.init();
+    }
     
     // 绑定全局事件
     bindGlobalEvents();
