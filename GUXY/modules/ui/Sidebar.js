@@ -268,12 +268,14 @@ GUXY.Sidebar = {
         return `
           <button class="btn btn-primary btn-full btn-generate-arch">生成架构</button>
           <button class="btn btn-secondary btn-full btn-auto-layout">自动布局</button>
+          <button class="btn btn-accent btn-full btn-ralph-loop">Ralph Loop</button>
         `;
       case 3:
         return `
           <p class="text-xs text-light">拖拽节点调整位置，点击连接点创建连线</p>
           <button class="btn btn-secondary btn-full btn-add-node">添加卡片</button>
           <button class="btn btn-secondary btn-full btn-add-collection">添加集合</button>
+          <button class="btn btn-accent btn-full btn-ralph-loop">Ralph Loop</button>
         `;
       case 4:
         return `
@@ -329,6 +331,16 @@ GUXY.Sidebar = {
     const currentStep = workflow?.currentStep || 1;
     
     switch (currentStep) {
+      case 2:
+        // 生成卡片架构 - Ralph Loop 按钮
+        const ralphLoopBtn = this.container.querySelector('.btn-ralph-loop');
+        ralphLoopBtn?.addEventListener('click', () => {
+          if (GUXY.RalphLoop) {
+            GUXY.RalphLoop.showPanel();
+          }
+        });
+        break;
+        
       case 3:
         // 手动调整架构 - 添加卡片和集合按钮
         const addCardBtn = this.container.querySelector('.btn-add-node');

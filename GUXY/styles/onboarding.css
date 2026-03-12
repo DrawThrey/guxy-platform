@@ -1,0 +1,337 @@
+/**
+ * GUXY 新手引导样式
+ * 高亮遮罩 + 气泡提示框
+ */
+
+/* ========= 遮罩层 ===== */
+.onboarding-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  display: none;
+  pointer-events: none;
+}
+
+.onboarding-overlay.active {
+  display: block;
+}
+
+/* 高亮区域 - 镂空效果 */
+.onboarding-spotlight {
+  position: absolute;
+  z-index: 10001;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+/* 目标元素高亮 */
+.onboarding-highlight {
+  position: relative;
+  z-index: 10002;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 var(--accent), 0 0 12px var(--accent);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 var(--accent), 0 0 12px var(--accent);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 var(--accent), 0 0 8px var(--accent);
+  opacity: 0.5;
+    transform: scale(1.1);
+    box-shadow: 0 0 0 var(--accent), 0 0 8px var(--accent);
+  opacity: 0;
+    transform: scale(1.2);
+    box-shadow: 0 0 0 var(--accent), 0 0 8px var(--accent);
+    }
+}
+
+/* ========= 气泡提示框 ===== */
+.onboarding-tooltip {
+  position: absolute;
+  z-index: 10003;
+  background: var(--bg-panel);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  max-width: 380px;
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 气泡箭头 */
+.onboarding-tooltip::before {
+  content: '';
+  position: absolute;
+  border: 8px solid transparent;
+}
+
+/* 箭头位置 - 根据placement调整 */
+.onboarding-tooltip[data-placement="top"]::before {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-color: transparent transparent var(--bg-panel) transparent;
+}
+
+.onboarding-tooltip[data-placement="bottom"]::before {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-color: transparent transparent var(--bg-panel) transparent;
+}
+
+.onboarding-tooltip[data-placement="left"]::before {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-color: transparent transparent transparent var(--bg-panel);
+}
+
+.onboarding-tooltip[data-placement="right"]::before {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-color: transparent transparent transparent var(--bg-panel);
+}
+
+/* 气泡头部 */
+.onboarding-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.onboarding-step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.onboarding-step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-heavy);
+  transition: all 0.2s ease;
+}
+
+.onboarding-step-dot.active {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.onboarding-step-dot.completed {
+  background: var(--success);
+}
+
+/* 气泡标题 */
+.onboarding-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  flex: 1;
+}
+
+/* 气泡内容 */
+.onboarding-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.onboarding-content p {
+  margin: 0 0 8px 0;
+}
+
+.onboarding-content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.onboarding-content li {
+  margin-bottom: 4px;
+}
+
+/* 气泡底部按钮区 */
+.onboarding-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.onboarding-footer-left {
+  display: flex;
+  gap: 8px;
+}
+
+.onboarding-footer-right {
+  display: flex;
+  gap: 8px;
+}
+
+/* 按钮样式 */
+.onboarding-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.onboarding-btn-skip {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.onboarding-btn-skip:hover {
+  color: var(--text);
+}
+
+.onboarding-btn-secondary {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.onboarding-btn-secondary:hover {
+  background: var(--bg-heavy);
+}
+
+.onboarding-btn-primary {
+  background: var(--accent);
+  color: var(--bg-dark);
+}
+
+.onboarding-btn-primary:hover {
+  background: var(--accent-dark);
+}
+
+/* 跳过按钮 */
+.onboarding-skip-link {
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.onboarding-skip-link:hover {
+  color: var(--text);
+}
+
+/* 完成动画 */
+.onboarding-complete-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10004;
+  background: rgba(0, 0, 0, 0.9);
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.onboarding-complete-content {
+  text-align: center;
+  color: white;
+}
+
+.onboarding-complete-content h2 {
+  font-size: 24px;
+  margin: 0 0 12px 0;
+  color: var(--accent);
+}
+
+.onboarding-complete-content p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* 欢迎提示样式 */
+.onboarding-welcome {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10003;
+  background: var(--bg-panel);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-xl);
+  padding: 32px 40px;
+  max-width: 480px;
+  color: var(--text);
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.onboarding-welcome h2 {
+  font-size: 24px;
+  margin: 0 0 16px 0;
+  color: var(--accent);
+}
+
+.onboarding-welcome p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.onboarding-welcome .onboarding-btn {
+  margin-top: 8px;
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+  .onboarding-tooltip {
+    max-width: calc(100vw - 40px);
+    left: 20px !important;
+    right: 20px !important;
+  }
+}
